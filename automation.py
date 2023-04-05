@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver import ActionChains
 import time
 
 
@@ -16,9 +17,11 @@ driver = webdriver.Chrome(service=servDriver)
 
 driver.maximize_window()
 
+# driver.implicitly_wait(10)
+
 def registration():
 
-    driver.get('https://www.amazon.com/')
+    driver.get('https://www.amazon.in/')
 
     driver.find_element(By.XPATH, '//*[@id="nav-signin-tooltip"]/a/span').click()
 
@@ -26,106 +29,91 @@ def registration():
 
     driver.find_element(By.XPATH, '//*[@id="ap_customer_name"]').send_keys('Sanjeev')
 
-    driver.find_element(By.XPATH, '//*[@id="ap_email"]').send_keys('sanjeev110522@gmail.com')
+    driver.find_element(By.XPATH, '//*[@id="ap_phone_number"]').send_keys('9415227466')
 
     driver.find_element(By.XPATH, '//*[@id="ap_password"]').send_keys('Mountblue@12345')
 
-    driver.find_element(By.XPATH, '//*[@id="ap_password_check"]').send_keys('Mountblue@12345')
-
     driver.find_element(By.XPATH, '//*[@id="continue"]').click()
 
-    time.sleep(60)
-
-    driver.close()
+    time.sleep(5)
 
 # registration()
 
 def login():
 
-    driver.get('https://www.amazon.com/')
+    driver.get('https://www.amazon.in/')
 
     driver.find_element(By.XPATH, '//*[@id="nav-signin-tooltip"]/a').click()
 
-    driver.find_element(By.XPATH, '//*[@id="ap_email"]').send_keys('sanjeev110522@gmail.com')
+    driver.find_element(By.XPATH, '//*[@id="ap_email"]').send_keys('8808760096')
 
     driver.find_element(By.XPATH, '//*[@id="continue"]').click()
 
-    driver.find_element(By.XPATH, '//*[@id="ap_password"]').send_keys('Mountblue@12345')
+    driver.find_element(By.XPATH, '//*[@id="ap_password"]').send_keys('Dr@1prabhat')
 
     driver.find_element(By.XPATH, '//*[@id="signInSubmit"]').click()
 
-    time.sleep(15)
+    time.sleep(2)
 
-# login()
+login()
 
-def searchProduce():
+def scrolling():
 
-    driver.get('https://www.amazon.com/')
+    action = ActionChains(driver)
 
-    # driver.find_element(By.XPATH, '//*[@id="nav-signin-tooltip"]/a').click()
-    #
-    # driver.find_element(By.XPATH, '//*[@id="ap_email"]').send_keys('sanjeev110592@gmail.com')
-    #
-    # driver.find_element(By.XPATH, '//*[@id="continue"]').click()
-    #
-    # driver.find_element(By.XPATH, '//*[@id="ap_password"]').send_keys('Dr@1prabhat')
-    #
-    # driver.find_element(By.XPATH, '//*[@id="signInSubmit"]').click()
+    first = driver.find_element(By.XPATH, '//*[@id="nav-hamburger-menu"]')
 
-    driver.find_element(By.XPATH, '//*[@id="twotabsearchtextbox"]').send_keys('one plus')
+    second = driver.find_element(By.XPATH, '//*[@id="nav-xshop"]/a[1]')
+
+    third = driver.find_element(By.XPATH, '//*[@id="nav-xshop"]/a[2]')
+
+    fourth = driver.find_element(By.XPATH, '//*[@id="nav-xshop"]/a[4]')
+
+    time.sleep(2)
+
+    action.move_to_element(first).move_to_element(second).move_to_element(third).move_to_element(fourth).click().perform()
+
+    driver.execute_script('window.scrollBy(0,document.body.scrollHeight)')
+
+    time.sleep(2)
+
+    driver.execute_script('window.scrollBy(0,-document.body.scrollHeight)')
+
+    time.sleep(2)
+
+scrolling()
+
+def searchProduct():
+
+    driver.find_element(By.XPATH, '//*[@id="twotabsearchtextbox"]').send_keys('oneplus')
 
     driver.find_element(By.XPATH, '//*[@id="nav-search-submit-button"]').click()
 
-    time.sleep(3)
+    driver.execute_script('window.scrollBy(0,2000),""')
 
-searchProduce()
+    time.sleep(5)
 
+searchProduct()
 
 def addToCart():
 
-    driver.get('https://www.amazon.com/')
-
-    # driver.find_element(By.XPATH, '//*[@id="nav-signin-tooltip"]/a').click()
+    # driver.find_element(By.XPATH, '//*[@id="twotabsearchtextbox"]').send_keys('oneplus')
     #
-    # driver.find_element(By.XPATH, '//*[@id="ap_email"]').send_keys('sanjeev110592@gmail.com')
-    #
-    # driver.find_element(By.XPATH, '//*[@id="continue"]').click()
-    #
-    # driver.find_element(By.XPATH, '//*[@id="ap_password"]').send_keys('Dr@1prabhat')
-    #
-    # driver.find_element(By.XPATH, '//*[@id="signInSubmit"]').click()
+    # driver.find_element(By.XPATH, '//*[@id="nav-search-submit-button"]').click()
 
-    driver.find_element(By.XPATH, '//*[@id="twotabsearchtextbox"]').send_keys('one plus')
+    driver.find_element(By.XPATH, '//*[@id="search"]/span[1]/div/div[13]/div/div/div/div[1]/span/a').click()
 
-    driver.find_element(By.XPATH, '//*[@id="nav-search-submit-button"]').click()
-
-    driver.find_element(By.XPATH, '//*[@id="search"]/div[1]/div[1]/div/span[1]/div[1]/div[11]/div/div/div/div/div/div[1]/div/div[2]/div/span/a').click()
-
-    driver.find_element(By.XPATH, '//*[@id="submit.add-to-cart"]').click()
+    driver.find_element(By.XPATH, '//input[@id="add-to-cart-button"]').click()
 
     time.sleep(20)
 
-    driver.close()
+addToCart()
 
-# addToCart()
-
-def buyProduct():
-
-    driver.get('https://www.amazon.com/')
-
-    driver.find_element(By.XPATH, '//*[@id="twotabsearchtextbox"]').send_keys('one plus')
-
-    driver.find_element(By.XPATH, '//*[@id="nav-search-submit-button"]').click()
-
-    driver.find_element(By.XPATH, '//*[@id="search"]/div[1]/div[1]/div/span[1]/div[1]/div[11]/div/div/div/div/div/div[1]/div/div[2]/div/span/a').click()
+# def buyProduct():
 
 
+# buyProduct()
 
-buyProduct()
-
-
-
-# def scrolling():
 
 
 
